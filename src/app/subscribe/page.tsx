@@ -32,6 +32,14 @@ export default function SubscribePage() {
         ← Back
       </button>
 
+      {/* Dashboard Button */}
+      <a 
+        href="/dashboard"
+        className="absolute top-6 right-6 z-20 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 hover:bg-white/20 hover:border-white/40 hover:scale-105 shadow-xl"
+      >
+        Dashboard
+      </a>
+
       {/* Subscription Form */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
         <div className="bg-black/40 backdrop-blur-lg border border-white/30 rounded-2xl p-8 shadow-2xl">
