@@ -60,7 +60,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
           <select
             value={selectedToken}
             onChange={(e) => setSelectedToken(e.target.value)}
-            className="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-all duration-200"
+            className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 transition-all duration-200"
           >
             <option value="" className="bg-gray-800 text-white">Choose a token</option>
             {tokens.map((token) => (
@@ -77,7 +77,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
           <select
             value={selectedChain}
             onChange={(e) => setSelectedChain(e.target.value)}
-            className="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/40 transition-all duration-200"
+            className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 transition-all duration-200"
           >
             <option value="" className="bg-gray-800 text-white">Choose a chain</option>
             {chains.map((chain) => (
@@ -96,7 +96,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
             value={recipientAddress}
             onChange={(e) => setRecipientAddress(e.target.value)}
             placeholder="0x..."
-            className="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-white/40 transition-all duration-200"
+            className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/70 focus:outline-none focus:border-white/50 transition-all duration-200"
           />
         </div>
 
@@ -109,8 +109,8 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
               onClick={() => setPaymentFrequency('weekly')}
               className={`py-3 px-4 rounded-lg border transition-all duration-200 ${
                 paymentFrequency === 'weekly'
-                  ? 'bg-white/20 border-white/40 text-white'
-                  : 'bg-white/10 border-white/20 text-white/70 hover:bg-white/15'
+                  ? 'bg-white/30 border-white/50 text-white'
+                  : 'bg-black/30 border-white/30 text-white hover:bg-black/40'
               }`}
             >
               Weekly
@@ -120,8 +120,8 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
               onClick={() => setPaymentFrequency('monthly')}
               className={`py-3 px-4 rounded-lg border transition-all duration-200 ${
                 paymentFrequency === 'monthly'
-                  ? 'bg-white/20 border-white/40 text-white'
-                  : 'bg-white/10 border-white/20 text-white/70 hover:bg-white/15'
+                  ? 'bg-white/30 border-white/50 text-white'
+                  : 'bg-black/30 border-white/30 text-white hover:bg-black/40'
               }`}
             >
               Monthly
@@ -132,7 +132,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
         {/* Subscribe Button */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="w-full bg-white/10 backdrop-blur-md border border-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 hover:bg-white/20 hover:border-white/50 hover:scale-105 shadow-lg"
         >
           Subscribe Now
         </button>
