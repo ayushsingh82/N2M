@@ -11,17 +11,19 @@ export default function SubscribePage() {
         <GradientBlinds
           gradientColors={['#FF9FFC', '#5227FF']}
           angle={45}
-          noise={0.3}
+          noise={0.2}
           blindCount={12}
           blindMinWidth={50}
-          spotlightRadius={0.5}
+          spotlightRadius={0.3}
           spotlightSoftness={1}
-          spotlightOpacity={1}
+          spotlightOpacity={0.6}
           mouseDampening={0.15}
           distortAmount={0}
           shineDirection="left"
           mixBlendMode="lighten"
         />
+        {/* Dark overlay to reduce intensity */}
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
 
       {/* Back Button */}

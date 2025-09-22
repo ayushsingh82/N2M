@@ -7,6 +7,7 @@ interface SubscriptionFormProps {
 }
 
 const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) => {
+  const [amount, setAmount] = useState('');
   const [selectedToken, setSelectedToken] = useState('');
   const [selectedChain, setSelectedChain] = useState('');
   const [recipientAddress, setRecipientAddress] = useState('');
@@ -29,12 +30,13 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedToken || !selectedChain || !recipientAddress || !paymentFrequency) {
+    if (!amount || !selectedToken || !selectedChain || !recipientAddress || !paymentFrequency) {
       alert('Please fill in all fields');
       return;
     }
     
     console.log('Subscription details:', {
+      amount,
       token: selectedToken,
       chain: selectedChain,
       recipientAddress,
@@ -54,38 +56,56 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
           <p className="text-white/70">Set up your recurring payments</p>
         </div>
 
-        {/* Token Selection */}
+        {/* Token and Chain Selection - First Line */}
         <div className="space-y-2">
-          <label className="block text-white font-medium">Select Token</label>
-          <select
-            value={selectedToken}
-            onChange={(e) => setSelectedToken(e.target.value)}
-            className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 transition-all duration-200"
-          >
-            <option value="" className="bg-gray-800 text-white">Choose a token</option>
-            {tokens.map((token) => (
-              <option key={token.symbol} value={token.symbol} className="bg-gray-800 text-white">
-                {token.symbol} - {token.name}
-              </option>
-            ))}
-          </select>
+          <label className="block text-white font-medium">Token & Chain</label>
+          <div className="grid grid-cols-2 gap-3">
+            {/* Token Selection */}
+            <div>
+              <select
+                value={selectedToken}
+                onChange={(e) => setSelectedToken(e.target.value)}
+                className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 transition-all duration-200"
+              >
+                <option value="" className="bg-gray-800 text-white">Choose a token</option>
+                {tokens.map((token) => (
+                  <option key={token.symbol} value={token.symbol} className="bg-gray-800 text-white">
+                    {token.symbol} - {token.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            {/* Chain Selection */}
+            <div>
+              <select
+                value={selectedChain}
+                onChange={(e) => setSelectedChain(e.target.value)}
+                className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 transition-all duration-200"
+              >
+                <option value="" className="bg-gray-800 text-white">Choose a chain</option>
+                {chains.map((chain) => (
+                  <option key={chain.id} value={chain.id} className="bg-gray-800 text-white">
+                    {chain.icon} {chain.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
-        {/* Chain Selection */}
+        {/* Amount Input - Second Line */}
         <div className="space-y-2">
-          <label className="block text-white font-medium">Select Chain</label>
-          <select
-            value={selectedChain}
-            onChange={(e) => setSelectedChain(e.target.value)}
-            className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 transition-all duration-200"
-          >
-            <option value="" className="bg-gray-800 text-white">Choose a chain</option>
-            {chains.map((chain) => (
-              <option key={chain.id} value={chain.id} className="bg-gray-800 text-white">
-                {chain.icon} {chain.name}
-              </option>
-            ))}
-          </select>
+          <label className="block text-white font-medium">Amount</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="Enter amount"
+            step="0.01"
+            min="0"
+            className="w-full bg-black/30 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/70 focus:outline-none focus:border-white/50 transition-all duration-200"
+          />
         </div>
 
         {/* Recipient Address */}
