@@ -7,7 +7,13 @@
     "start": "ts-node components/swap.ts",
     "dev": "ts-node --watch components/swap.ts",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "subscription:start": "ts-node subscription-automation.ts start",
+    "subscription:status": "ts-node subscription-automation.ts status",
+    "subscription:weekly": "ts-node subscription-automation.ts test-weekly",
+    "subscription:monthly": "ts-node subscription-automation.ts test-monthly",
+    "subscription:5min": "ts-node subscription-automation.ts test-5min",
+    "subscription:execute": "ts-node subscription-automation.ts execute-now"
   },
   "dependencies": {
     "@defuse-protocol/one-click-sdk-typescript": "^0.1.9" ,

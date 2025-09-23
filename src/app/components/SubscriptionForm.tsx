@@ -11,7 +11,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
   const [selectedToken, setSelectedToken] = useState('');
   const [selectedChain, setSelectedChain] = useState('');
   const [recipientAddress, setRecipientAddress] = useState('');
-  const [paymentFrequency, setPaymentFrequency] = useState<'weekly' | 'monthly' | null>(null);
+  const [paymentFrequency, setPaymentFrequency] = useState<'weekly' | 'monthly' | '5min' | null>(null);
 
   const tokens = [
     { symbol: 'USDC', name: 'USD Coin', address: '0xA0b86a33E6441c8C' },
@@ -123,7 +123,7 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
         {/* Payment Frequency */}
         <div className="space-y-3">
           <label className="block text-white font-medium">Payment Frequency</label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <button
               type="button"
               onClick={() => setPaymentFrequency('weekly')}
@@ -145,6 +145,17 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
               }`}
             >
               Monthly
+            </button>
+            <button
+              type="button"
+              onClick={() => setPaymentFrequency('5min')}
+              className={`py-3 px-4 rounded-lg border transition-all duration-200 ${
+                paymentFrequency === '5min'
+                  ? 'bg-white/30 border-white/50 text-white'
+                  : 'bg-black/30 border-white/30 text-white hover:bg-black/40'
+              }`}
+            >
+              5 Min
             </button>
           </div>
         </div>
