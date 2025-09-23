@@ -15,6 +15,9 @@ interface SubscriptionData {
 
 export default function DashboardPage() {
   const [subscriptions, setSubscriptions] = useState<SubscriptionData[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingSubscription, setEditingSubscription] = useState<SubscriptionData | null>(null);
+  const [editAmount, setEditAmount] = useState('');
 
   // Mock data - in a real app, this would come from an API
   useEffect(() => {
@@ -60,6 +63,33 @@ export default function DashboardPage() {
     }
   };
 
+  const handleEditClick = (subscription: SubscriptionData) => {
+    setEditingSubscription(subscription);
+    setEditAmount(subscription.amount);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingSubscription && editAmount) {
+      setSubscriptions(prev => 
+        prev.map(sub => 
+          sub === editingSubscription 
+            ? { ...sub, amount: editAmount }
+            : sub
+        )
+      );
+      setIsEditModalOpen(false);
+      setEditingSubscription(null);
+      setEditAmount('');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditModalOpen(false);
+    setEditingSubscription(null);
+    setEditAmount('');
+  };
+
   return (
     <div className="relative w-full min-h-screen overflow-hidden">
       {/* Gradient Background */}
@@ -79,7 +109,7 @@ export default function DashboardPage() {
           mixBlendMode="lighten"
         />
         {/* Dark overlay to reduce intensity */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-black/10"></div>
       </div>
 
       {/* Back Button */}
@@ -112,7 +142,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Subscriptions Table */}
-          <div className="bg-black/40 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-black/20 backdrop-blur-lg border border-white/40 rounded-2xl shadow-2xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-white/10">
@@ -160,7 +190,10 @@ export default function DashboardPage() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex space-x-2">
-                          <button className="bg-white/10 backdrop-blur-md border border-white/30 text-white py-1 px-3 rounded-lg transition-all duration-200 hover:bg-white/20 text-xs">
+                          <button 
+                            onClick={() => handleEditClick(subscription)}
+                            className="bg-white/10 backdrop-blur-md border border-white/30 text-white py-1 px-3 rounded-lg transition-all duration-200 hover:bg-white/20 text-xs"
+                          >
                             Edit
                           </button>
                           <button className="bg-red-500/20 border border-red-500/30 text-red-400 py-1 px-3 rounded-lg transition-all duration-200 hover:bg-red-500/30 text-xs">
@@ -178,7 +211,7 @@ export default function DashboardPage() {
           {/* Empty State */}
           {subscriptions.length === 0 && (
             <div className="text-center py-20">
-              <div className="bg-black/40 backdrop-blur-lg border border-white/30 rounded-2xl p-12 shadow-2xl max-w-md mx-auto">
+              <div className="bg-black/20 backdrop-blur-lg border border-white/40 rounded-2xl p-12 shadow-2xl max-w-md mx-auto">
                 <div className="text-6xl mb-4">📊</div>
                 <h3 className="text-2xl font-bold text-white mb-2">No Subscriptions Yet</h3>
                 <p className="text-white/70 mb-6">Create your first multichain subscription</p>
@@ -193,6 +226,68 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={handleCancelEdit}
+          ></div>
+          
+          {/* Modal */}
+          <div className="relative bg-black/30 backdrop-blur-lg border border-white/40 rounded-2xl p-8 shadow-2xl max-w-md w-full">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">
+              Edit Amount
+            </h3>
+            
+            {editingSubscription && (
+              <div className="space-y-4">
+                <div className="bg-white/10 rounded-lg p-4">
+                  <p className="text-white/70 text-sm mb-2">Subscription Details:</p>
+                  <p className="text-white font-semibold">
+                    {editingSubscription.token} on {editingSubscription.chain}
+                  </p>
+                  <p className="text-white/70 text-sm">
+                    To: {editingSubscription.recipientAddress.slice(0, 6)}...{editingSubscription.recipientAddress.slice(-4)}
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-white font-medium mb-2">
+                    New Amount ({editingSubscription.token})
+                  </label>
+                  <input
+                    type="number"
+                    value={editAmount}
+                    onChange={(e) => setEditAmount(e.target.value)}
+                    placeholder="Enter new amount"
+                    step="0.01"
+                    min="0"
+                    className="w-full bg-white/10 backdrop-blur-md border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/70 focus:outline-none focus:border-white/50 transition-all duration-200"
+                  />
+                </div>
+                
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    onClick={handleSaveEdit}
+                    className="flex-1 bg-white/20 backdrop-blur-md border border-white/40 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:bg-white/30 hover:border-white/60"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="flex-1 bg-red-500/20 border border-red-500/30 text-red-400 font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:bg-red-500/30"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

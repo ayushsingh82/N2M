@@ -13,7 +13,8 @@
     "subscription:weekly": "ts-node subscription-automation.ts test-weekly",
     "subscription:monthly": "ts-node subscription-automation.ts test-monthly",
     "subscription:5min": "ts-node subscription-automation.ts test-5min",
-    "subscription:execute": "ts-node subscription-automation.ts execute-now"
+    "subscription:execute": "ts-node subscription-automation.ts execute-now",
+    "subscription:test": "ts-node test-subscription.ts"
   },
   "dependencies": {
     "@defuse-protocol/one-click-sdk-typescript": "^0.1.9" ,

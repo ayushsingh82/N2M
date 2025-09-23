@@ -23,7 +23,7 @@ export default function SubscribePage() {
           mixBlendMode="lighten"
         />
         {/* Dark overlay to reduce intensity */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-black/10"></div>
       </div>
 
       {/* Back Button */}
@@ -44,7 +44,7 @@ export default function SubscribePage() {
 
       {/* Subscription Form */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
-        <div className="bg-black/40 backdrop-blur-lg border border-white/30 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-black/20 backdrop-blur-lg border border-white/40 rounded-2xl p-8 shadow-2xl">
           <SubscriptionForm />
         </div>
       </div>
