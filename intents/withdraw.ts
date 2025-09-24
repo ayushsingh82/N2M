@@ -26,7 +26,7 @@ async function withdraw({
   receiverAddress,
 }: WithdrawOptions): Promise<void> {
   console.log(
-    `You are about to exchange ${inputToken} tokens for ${outputToken}`
+    `You are about to withdraw ${inputToken} tokens to ${outputToken} on Base chain`
   );
 
   const account = getAccount();
@@ -64,18 +64,16 @@ async function withdraw({
 
   await waitUntilQuoteExecutionCompletes(quote);
 
-  console.log(`Withdraw was settled successfully!`);
-  console.log(
-    `Check the updated balance at https://www.arbiscan.io/address/${receiverAddress}`
-  );
+  console.log(`Withdraw of 0.1 USDC to Base chain was settled successfully!`);
+
 }
 
 withdraw({
-  inputToken: "nep141:eth.omft.near",
-  outputToken: "nep141:arb.omft.near",
-  inputAmount: BigInt(3_000_000_000_000), // 3 * 10^12 wETH
+  inputToken: "nep141:base-0x833589fcd6edb6e08f4c7c32d4f71b54bda02913.omft.near", // USDC on Base (from swap)
+  outputToken: "base:0x833589fcd6edb6e08f4c7c32d4f71b54bda02913", // USDC on Base chain
+  inputAmount: BigInt(100_000), // 0.1 USDC (6 decimals)
   slippageTolerance: 10, // 0.1%
-  receiverAddress: "0x427F9620Be0fe8Db2d840E2b6145D1CF2975bcaD",
+  receiverAddress: "0xB822B51A88E8a03fCe0220B15Cb2C662E42Adec1", // Base chain address
 }).catch((error: unknown) => {
   const { styleText } = require("node:util");
 
