@@ -47,6 +47,23 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
     alert('Subscription created successfully!');
   };
 
+  const handlePayInstantly = () => {
+    if (!amount || !selectedToken || !selectedChain || !recipientAddress) {
+      alert('Please fill in all fields except payment frequency');
+      return;
+    }
+    
+    console.log('Instant payment details:', {
+      amount,
+      token: selectedToken,
+      chain: selectedChain,
+      recipientAddress
+    });
+    
+    // Here you would typically handle the instant payment logic
+    alert('Payment sent instantly!');
+  };
+
   return (
     <div className={`w-full max-w-md mx-auto ${className}`}>
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -168,6 +185,17 @@ const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ className = '' }) =
           Subscribe Now
         </button>
       </form>
+
+      {/* Pay Instantly Button */}
+      <div className="mt-4">
+        <button
+          type="button"
+          onClick={handlePayInstantly}
+          className="w-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-purple-400/30 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-400/50 hover:scale-105 shadow-lg"
+        >
+          💳 Pay Instantly
+        </button>
+      </div>
     </div>
   );
 };

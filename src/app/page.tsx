@@ -36,7 +36,7 @@ export default function Home() {
       {/* N2M Loops Text - Center */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
         <h1 className="text-7xl md:text-9xl font-black text-white text-center drop-shadow-2xl tracking-wider mb-6">
-          𝓝2𝓜 𝓛𝓞𝓞𝓟𝓢
+          N2M Loops
         </h1>
         <p className="text-xl md:text-2xl text-white/90 text-center drop-shadow-lg max-w-2xl px-4">
           NEAR intent helps you subscribe multichain
