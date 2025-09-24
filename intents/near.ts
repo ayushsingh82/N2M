@@ -26,14 +26,15 @@ export function getAccount() {
     return new Account(accountId, provider, signer);
   }
 
+ 
+
   export async function getAccountBalanceOfNear(
     account: Account
   ): Promise<bigint> {
     return await account.getBalance(NEAR);
   }
   
-
-  export async function getAccountBalanceOfSolana(
+  export async function getAccountBalanceOfMultiToken(
     account: Account,
     token: string
   ): Promise<bigint> {
@@ -41,15 +42,14 @@ export function getAccount() {
       INTENTS_CONTRACT_ID,
       "mt_balance_of",
       {
-        token_id: "nep141:sol.omft.near",
+        token_id: token,
         account_id: account.accountId,
       }
     );
   
     return BigInt(amount as string);
   }
-
-
+  
   export async function depositNearAsMultiToken(
     account: Account,
     amount: bigint
@@ -77,18 +77,18 @@ export function getAccount() {
     });
   
     console.log(`Tx: https://nearblocks.io/txns/${transaction.hash}`);
-
-      // wait until the transaction is included into finalized block
-  await account.provider.viewTransactionStatus(
-    transaction.hash,
-    account.accountId,
-    "INCLUDED_FINAL"
-  );
-
-  console.log(`Successfully deposited NEAR as multi-token`);
-}
-
-export async function transferMultiTokenForQuote(
+  
+    // wait until the transaction is included into finalized block
+    await account.provider.viewTransactionStatus(
+      transaction.hash,
+      account.accountId,
+      "INCLUDED_FINAL"
+    );
+  
+    console.log(`Successfully deposited NEAR as multi-token`);
+  }
+  
+  export async function transferMultiTokenForQuote(
     account: Account,
     quote: Quote,
     token: string

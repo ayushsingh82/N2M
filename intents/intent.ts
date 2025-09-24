@@ -51,6 +51,7 @@ import {
     throw new Error(`Quote hasn't been settled after 60 seconds`);
   }
 
+ 
   async function safeGetQuote(
     requestBody: QuoteRequest
   ): Promise<Quote | undefined> {
@@ -64,8 +65,7 @@ import {
       return undefined;
     }
   }
-
-
+  
   export async function getQuote(requestBody: QuoteRequest): Promise<Quote> {
     console.log("Querying a quote from 1Click API");
   
@@ -91,3 +91,22 @@ import {
     return quote;
   }
   
+  async function safeGetSupportedTokens(): Promise<TokenResponse[]> {
+    try {
+      return await OneClickService.getTokens();
+    } catch (error) {
+      logOneClickApiError(error, `Failed to get supported tokens`);
+  
+      return [];
+    }
+  }
+  
+  export async function getSupportedTokens(): Promise<TokenResponse[]> {
+    const tokens = await safeGetSupportedTokens();
+  
+    if (tokens.length === 0) {
+      throw new Error(`No tokens found!`);
+    }
+  
+    return tokens;
+  }
