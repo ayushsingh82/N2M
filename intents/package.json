@@ -29,7 +29,16 @@
     "token:chain": "ts-node token-mapping.ts chain",
     "token:symbol": "ts-node token-mapping.ts symbol",
     "token:demo": "ts-node token-usage-example.ts demo",
-    "token:examples": "ts-node token-usage-example.ts examples"
+    "token:examples": "ts-node token-usage-example.ts examples",
+    "payment:start": "ts-node payment-service.ts start",
+    "payment:execute": "ts-node payment-service.ts execute",
+    "payment:status": "ts-node payment-service.ts status",
+    "cron:start": "ts-node cron-demo.ts start",
+    "cron:stop": "ts-node cron-demo.ts stop",
+    "cron:status": "ts-node cron-demo.ts status",
+    "cron:validate": "ts-node cron-demo.ts validate",
+    "cron:examples": "ts-node cron-demo.ts examples",
+    "cron:info": "ts-node cron-demo.ts info"
   },
   "dependencies": {
     "@defuse-protocol/one-click-sdk-typescript": "^0.1.9",
@@ -38,10 +47,13 @@
     "@near-js/providers": "^2.0.2",
     "@near-js/signers": "^2.0.2",
     "@near-js/tokens": "^2.0.2",
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "node-cron": "^3.0.3",
+    "cron": "^3.1.6"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@types/node-cron": "^3.0.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }

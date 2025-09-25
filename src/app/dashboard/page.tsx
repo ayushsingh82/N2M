@@ -18,6 +18,8 @@ export default function DashboardPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingSubscription, setEditingSubscription] = useState<SubscriptionData | null>(null);
   const [editAmount, setEditAmount] = useState('');
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [actionSubscription, setActionSubscription] = useState<SubscriptionData | null>(null);
 
   // Mock data - in a real app, this would come from an API
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function DashboardPage() {
         recipientAddress: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
         paymentFrequency: 'monthly',
         amount: '1',
-        nextPayment: '2024-02-15',
+        nextPayment: '2025-09-25',
         status: 'active'
       },
       {
@@ -37,7 +39,7 @@ export default function DashboardPage() {
         recipientAddress: '0x8ba1f109551bD432803012645Hac136c',
         paymentFrequency: 'weekly',
         amount: '2',
-        nextPayment: '2024-01-28',
+        nextPayment: '2025-09-25',
         status: 'active'
       }
     ]);
@@ -88,6 +90,35 @@ export default function DashboardPage() {
     setIsEditModalOpen(false);
     setEditingSubscription(null);
     setEditAmount('');
+  };
+
+  const handleCancelClick = (subscription: SubscriptionData) => {
+    setActionSubscription(subscription);
+    setIsCancelModalOpen(true);
+  };
+
+  const handleCancelAction = () => {
+    if (actionSubscription) {
+      // Here you would typically cancel the subscription
+      console.log('Cancelling subscription:', actionSubscription);
+      alert(`Subscription cancelled! ${actionSubscription.token} payments will stop.`);
+      
+      // Update subscription status
+      setSubscriptions(prev => 
+        prev.map(sub => 
+          sub === actionSubscription 
+            ? { ...sub, status: 'cancelled' as const }
+            : sub
+        )
+      );
+    }
+    setIsCancelModalOpen(false);
+    setActionSubscription(null);
+  };
+
+  const handleCloseCancelModal = () => {
+    setIsCancelModalOpen(false);
+    setActionSubscription(null);
   };
 
   return (
@@ -196,7 +227,10 @@ export default function DashboardPage() {
                           >
                             Edit
                           </button>
-                          <button className="bg-red-500/20 border border-red-500/30 text-red-400 py-1 px-3 rounded-lg transition-all duration-200 hover:bg-red-500/30 text-xs">
+                          <button 
+                            onClick={() => handleCancelClick(subscription)}
+                            className="bg-red-500/20 border border-red-500/30 text-red-400 py-1 px-3 rounded-lg transition-all duration-200 hover:bg-red-500/30 text-xs"
+                          >
                             Cancel
                           </button>
                         </div>
@@ -281,6 +315,68 @@ export default function DashboardPage() {
                     className="flex-1 bg-red-500/20 border border-red-500/30 text-red-400 font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:bg-red-500/30"
                   >
                     Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Cancel Subscription Modal */}
+      {isCancelModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={handleCloseCancelModal}
+          ></div>
+          
+          {/* Modal */}
+          <div className="relative bg-black/30 backdrop-blur-lg border border-white/40 rounded-2xl p-8 shadow-2xl max-w-md w-full">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">
+              Cancel Subscription
+            </h3>
+            
+            {actionSubscription && (
+              <div className="space-y-4">
+                <div className="bg-white/10 rounded-lg p-4">
+                  <p className="text-white/70 text-sm mb-2">Subscription Details:</p>
+                  <p className="text-white font-semibold">
+                    {actionSubscription.token} on {actionSubscription.chain}
+                  </p>
+                  <p className="text-white/70 text-sm">
+                    Amount: {actionSubscription.amount} {actionSubscription.token}
+                  </p>
+                  <p className="text-white/70 text-sm">
+                    Frequency: {actionSubscription.paymentFrequency}
+                  </p>
+                  <p className="text-white/70 text-sm">
+                    To: {actionSubscription.recipientAddress.slice(0, 6)}...{actionSubscription.recipientAddress.slice(-4)}
+                  </p>
+                </div>
+                
+                <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                  <p className="text-red-400 font-semibold text-center">
+                    Are you sure you want to cancel this subscription?
+                  </p>
+                  <p className="text-red-400/70 text-sm text-center mt-2">
+                    This will stop all future payments for this subscription.
+                  </p>
+                </div>
+                
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    onClick={handleCancelAction}
+                    className="flex-1 bg-red-500/20 border border-red-500/40 text-red-400 font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:bg-red-500/30 hover:border-red-500/60"
+                  >
+                    Yes, Cancel
+                  </button>
+                  <button
+                    onClick={handleCloseCancelModal}
+                    className="flex-1 bg-white/10 border border-white/30 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:bg-white/20"
+                  >
+                    Keep Active
                   </button>
                 </div>
               </div>
