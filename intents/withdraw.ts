@@ -68,18 +68,28 @@ async function withdraw({
 
 }
 
+// Withdraw 0.1 USDC (you have 0.286038 USDC available)
 withdraw({
   inputToken: "nep141:base-0x833589fcd6edb6e08f4c7c32d4f71b54bda02913.omft.near", // USDC on Base (from swap)
   outputToken: "base:0x833589fcd6edb6e08f4c7c32d4f71b54bda02913", // USDC on Base chain
   inputAmount: BigInt(100_000), // 0.1 USDC (6 decimals)
   slippageTolerance: 10, // 0.1%
   receiverAddress: "0xB822B51A88E8a03fCe0220B15Cb2C662E42Adec1", // Base chain address
+}).then(() => {
+  console.log("🎉 Withdrawal completed successfully!");
+  console.log("💰 0.1 USDC has been sent to Base chain address: 0xB822B51A88E8a03fCe0220B15Cb2C662E42Adec1");
 }).catch((error: unknown) => {
   const { styleText } = require("node:util");
 
+  console.error("❌ Withdrawal failed:");
   if (error instanceof Error) {
     console.error(styleText("red", error.message));
   } else {
     console.error(styleText("red", JSON.stringify(error)));
   }
+  
+  console.log("\n💡 Troubleshooting:");
+  console.log("1. Check if you have sufficient USDC balance");
+  console.log("2. Verify the Base chain address is correct");
+  console.log("3. Ensure the quote parameters are valid");
 });

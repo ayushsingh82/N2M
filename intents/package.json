@@ -24,6 +24,7 @@
     "examples:deposit": "ts-node function-examples.ts deposit",
     "examples:quote": "ts-node function-examples.ts quote",
     "examples:deposit-fn": "ts-node function-examples.ts deposit-fn",
+    "withdraw": "ts-node withdraw.ts",
     "token:info": "ts-node token-mapping.ts info",
     "token:chains": "ts-node token-mapping.ts chains",
     "token:chain": "ts-node token-mapping.ts chain",

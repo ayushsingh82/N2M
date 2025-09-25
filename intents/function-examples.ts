@@ -116,15 +116,20 @@ async function exampleGetMultiTokenBalance(): Promise<void> {
 async function exampleDeposit(): Promise<void> {
   console.log("📝 Example: depositNearAsMultiToken()");
   const account = getAccount();
-  const amount = NEAR.toUnits("0.01");
+  const amount = NEAR.toUnits("0.1"); // Increased to 0.1 NEAR for swap
   
   // Check balance first
   const balance = await getAccountBalanceOfNear(account);
+  console.log(`Current NEAR balance: ${NEAR.toDecimal(balance)} NEAR`);
+  console.log(`Attempting to deposit: ${NEAR.toDecimal(amount)} NEAR`);
+  
   if (balance >= amount) {
     await depositNearAsMultiToken(account, amount);
-    console.log("Deposit successful!");
+    console.log("✅ Deposit successful!");
+    console.log("💡 Now you can run 'npm run examples:quote' to swap NEAR → USDC");
   } else {
-    console.log("Insufficient balance");
+    console.log("❌ Insufficient balance");
+    console.log(`Required: ${NEAR.toDecimal(amount)} NEAR, Available: ${NEAR.toDecimal(balance)} NEAR`);
   }
 }
 
@@ -132,26 +137,47 @@ async function exampleExecuteQuote(): Promise<void> {
   console.log("📝 Example: Execute Quote");
   const account = getAccount();
   
-  // Get quote
-  const quote = await getQuote({
-    dry: false,
-    swapType: QuoteRequest.swapType.EXACT_INPUT,
-    slippageTolerance: 10,
-    depositType: QuoteRequest.depositType.INTENTS,
-    originAsset: "nep141:near.omft.near",
-    destinationAsset: "nep141:base-0x833589fcd6edb6e08f4c7c32d4f71b54bda02913.omft.near",
-    amount: NEAR.toUnits("0.01").toString(),
-    refundTo: account.accountId,
-    refundType: QuoteRequest.refundType.INTENTS,
-    recipient: account.accountId,
-    recipientType: QuoteRequest.recipientType.INTENTS,
-    deadline: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
-  });
+  // Use a larger amount for the quote (0.1 NEAR instead of 0.01)
+  const swapAmount = NEAR.toUnits("0.1");
+  
+  console.log(`Attempting to swap ${NEAR.toDecimal(swapAmount)} NEAR to USDC on Base`);
+  
+  try {
+    // Get quote - using the correct token ID (wrap.near instead of near.omft.near)
+    const quote = await getQuote({
+      dry: false,
+      swapType: QuoteRequest.swapType.EXACT_INPUT,
+      slippageTolerance: 10,
+      depositType: QuoteRequest.depositType.INTENTS,
+      originAsset: "nep141:wrap.near", // ← Fixed: Use wrap.near (what you actually have)
+      destinationAsset: "nep141:base-0x833589fcd6edb6e08f4c7c32d4f71b54bda02913.omft.near",
+      amount: swapAmount.toString(),
+      refundTo: account.accountId,
+      refundType: QuoteRequest.refundType.INTENTS,
+      recipient: account.accountId,
+      recipientType: QuoteRequest.recipientType.INTENTS,
+      deadline: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+    });
 
-  // Execute quote
-  await transferMultiTokenForQuote(account, quote, "nep141:near.omft.near");
-  await waitUntilQuoteExecutionCompletes(quote);
-  console.log("Quote executed!");
+    console.log(`✅ Quote received: ${quote.amountInFormatted} → ${quote.amountOutFormatted}`);
+
+    // Execute quote - using the correct token ID
+    await transferMultiTokenForQuote(account, quote, "nep141:wrap.near");
+    await waitUntilQuoteExecutionCompletes(quote);
+    console.log("✅ Quote executed successfully!");
+    
+  } catch (error) {
+    console.error("❌ Quote execution failed:", error);
+    
+    // Check if it's a balance issue
+    const balance = await getAccountBalanceOfMultiToken(account, "nep141:wrap.near");
+    console.log(`Current multi-token balance: ${balance.toString()}`);
+    console.log(`Required amount: ${swapAmount.toString()}`);
+    
+    if (balance < swapAmount) {
+      console.log("💡 Solution: Deposit more NEAR first using 'npm run examples:deposit'");
+    }
+  }
 }
 
 // ========================================
