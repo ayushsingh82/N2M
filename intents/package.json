@@ -17,10 +17,7 @@
     "subscription:test": "ts-node test-subscription.ts",
     "flow:complete": "ts-node complete-flow.ts",
     "flow:test": "ts-node test-flow.ts",
-    "examples:demo": "ts-node function-examples.ts demo",
-    "examples:account": "ts-node function-examples.ts account",
-    "examples:balance": "ts-node function-examples.ts balance",
-    "examples:multitoken": "ts-node function-examples.ts multitoken",
+ t
     "examples:deposit": "ts-node function-examples.ts deposit",
     "examples:quote": "ts-node function-examples.ts quote",
     "examples:deposit-fn": "ts-node function-examples.ts deposit-fn",

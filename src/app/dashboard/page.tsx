@@ -7,10 +7,10 @@ interface SubscriptionData {
   token: string;
   chain: string;
   recipientAddress: string;
-  paymentFrequency: 'weekly' | 'monthly';
+  paymentFrequency: 'weekly' | 'monthly' | 'instantly';
   amount: string;
   nextPayment: string;
-  status: 'active' | 'paused' | 'cancelled';
+  status: 'active' | 'paused' | 'cancelled' | 'paid';
 }
 
 export default function DashboardPage() {
@@ -24,6 +24,15 @@ export default function DashboardPage() {
   // Mock data - in a real app, this would come from an API
   useEffect(() => {
     setSubscriptions([
+      {
+        token: 'USDC',
+        chain: 'Base',
+        recipientAddress: '0xB822B51A88E8a03fCe0220B15Cb2C662E42Adec1',
+        paymentFrequency: 'instantly',
+        amount: '0.1',
+        nextPayment: 'Completed',
+        status: 'paid'
+      },
       {
         token: 'USDC',
         chain: 'Ethereum',
@@ -50,6 +59,7 @@ export default function DashboardPage() {
       case 'active': return 'text-green-400 bg-green-400/20';
       case 'paused': return 'text-yellow-400 bg-yellow-400/20';
       case 'cancelled': return 'text-red-400 bg-red-400/20';
+      case 'paid': return 'text-blue-400 bg-blue-400/20';
       default: return 'text-gray-400 bg-gray-400/20';
     }
   };
