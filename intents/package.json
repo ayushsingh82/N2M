@@ -23,7 +23,13 @@
     "examples:multitoken": "ts-node function-examples.ts multitoken",
     "examples:deposit": "ts-node function-examples.ts deposit",
     "examples:quote": "ts-node function-examples.ts quote",
-    "examples:deposit-fn": "ts-node function-examples.ts deposit-fn"
+    "examples:deposit-fn": "ts-node function-examples.ts deposit-fn",
+    "token:info": "ts-node token-mapping.ts info",
+    "token:chains": "ts-node token-mapping.ts chains",
+    "token:chain": "ts-node token-mapping.ts chain",
+    "token:symbol": "ts-node token-mapping.ts symbol",
+    "token:demo": "ts-node token-usage-example.ts demo",
+    "token:examples": "ts-node token-usage-example.ts examples"
   },
   "dependencies": {
     "@defuse-protocol/one-click-sdk-typescript": "^0.1.9",

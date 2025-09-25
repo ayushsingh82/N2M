@@ -27,7 +27,7 @@ export default function DashboardPage() {
         chain: 'Ethereum',
         recipientAddress: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
         paymentFrequency: 'monthly',
-        amount: '100',
+        amount: '1',
         nextPayment: '2024-02-15',
         status: 'active'
       },
@@ -36,7 +36,7 @@ export default function DashboardPage() {
         chain: 'Polygon',
         recipientAddress: '0x8ba1f109551bD432803012645Hac136c',
         paymentFrequency: 'weekly',
-        amount: '50',
+        amount: '2',
         nextPayment: '2024-01-28',
         status: 'active'
       }
